@@ -1,7 +1,7 @@
 # Projet-TaskMaster
 Projet 1 de passerelle
 
-__OBJECTIF__ : Créer un assistant qui gère tes rappels et tes tâches directement dans un salon Discord. (To do list discord)
+__OBJECTIF__ : Créer un assistant qui gère les rappels et les tâches directement dans un salon Discord. (To do list discord)
 
 __Cahier des charges__ : 
 1. Commandes de bases :
