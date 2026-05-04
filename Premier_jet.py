@@ -40,6 +40,16 @@ async def ajout(ctx,name,due,priority):
         await db.commit()
         await ctx.send(f"La tache {name} a été ajoutée à votre To-Do List")
 
+@bot.command(name="done")
+async def suppression(ctx,name):
+    async with aiosqlite.connect("taches") as db:
+        await db.execute("""
+            DELETE FROM globals_tasks
+            WHERE id_user = ? AND name = ?
+            """,[ctx.author.id,name])
+        await db.commit()
+        await ctx.send("Bravo ! Vous avez fini une tâche !")
+
 @bot.command(name='tasks')
 async def affiche_tache(ctx):
     async with aiosqlite.connect("taches") as db:
@@ -52,7 +62,7 @@ async def affiche_tache(ctx):
         tasks_user.add_field(name=f"tache {count}",value=f"{i[2]} à faire pour le {i[3]} de priorité {i[4]}", inline=False)
     await ctx.send(embed=tasks_user)
 
-@bot.command(name='suppression')
+@bot.command(name='delBDD')
 @commands.has_role(1500761440112480286)
 async def deleteBDD(ctx):
     async with aiosqlite.connect("taches") as db:
