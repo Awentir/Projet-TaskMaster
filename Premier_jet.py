@@ -5,8 +5,9 @@ import os
 import aiosqlite
 
 # Permet de charger notre Token
-os.getenv("TOKEN")
-load_dotenv(dotenv_path="config.txt") 
+load_dotenv() 
+Token = os.getenv("TOKEN_BOT")
+Admin_id = os.getenv("ADMIN_ID")
 
 # Initialisation du bot
 intents = discord.Intents.default()
@@ -63,7 +64,7 @@ async def affiche_tache(ctx):
     await ctx.send(embed=tasks_user)
 
 @bot.command(name='delBDD')
-@commands.has_role(1500761440112480286)
+@commands.has_role(Admin_id)
 async def deleteBDD(ctx):
     async with aiosqlite.connect("taches") as db:
         await db.execute("""DELETE FROM globals_tasks;""")
@@ -78,4 +79,4 @@ async def fermeture(ctx):
 
 
 # Token du bot discord
-bot.run(os.getenv("TOKEN"))
+bot.run(Token)
