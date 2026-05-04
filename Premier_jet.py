@@ -35,8 +35,8 @@ async def on_ready():
 async def ajout(ctx,name,due,priority):
     async with aiosqlite.connect("taches") as db:
         await db.execute("""
-        INSERT INTO globals_tasks (id_user,name,due,priority) VALUES (?,?,?,?);
-        """,[ctx.author.id,name,due,priority])
+            INSERT INTO globals_tasks (id_user,name,due,priority) VALUES (?,?,?,?);
+            """,[ctx.author.id,name,due,priority])
         await db.commit()
         await ctx.send(f"La tache {name} a été ajoutée à votre To-Do List")
 
@@ -52,19 +52,20 @@ async def affiche_tache(ctx):
         tasks_user.add_field(name=f"tache {count}",value=f"{i[2]} à faire pour le {i[3]} de priorité {i[4]}", inline=False)
     await ctx.send(embed=tasks_user)
 
-@bot.command(name='suppression_donnée')
+@bot.command(name='suppression')
+@commands.has_role(1500761440112480286)
 async def deleteBDD(ctx):
-    if ctx.author.id == '352375525282676736':
-        async with aiosqlite.connect("taches") as db:
-            await db.execute("""
-                DROP TABLE globals_tasks
-                """)
+    async with aiosqlite.connect("taches") as db:
+        await db.execute("""DELETE FROM globals_tasks;""")
+        await db.commit()
+        await ctx.send("Données supprimées !")  
 
 @bot.command(name='close')
 async def fermeture(ctx):
-    if ctx.author.name == 'awentir':
+    if ctx.author.id == '352375525282676736':
         bot.close
         print(f'{bot.user} a bien été déconnecté')
+
 
 # Token du bot discord
 bot.run(os.getenv("TOKEN"))
